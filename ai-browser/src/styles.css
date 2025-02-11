@@ -1,0 +1,17 @@
+/* You can add global styles to this file, and also import other style files */
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@use '@angular/material' as mat;
+
+html, body { height: 100%; }
+
+.mdc-notched-outline__notch
+{
+  border-right: none !important;
+}
+
+::ng-deep .mdc-notched-outline__notch {
+  border: none !important;
+}

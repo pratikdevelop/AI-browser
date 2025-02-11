@@ -1,0 +1,62 @@
+<header class="bg-gray-800 text-white p-3 flex justify-between items-center">
+  <div class="text-lg font-bold">AI Browser</div>
+
+  <input
+    matInput
+    placeholder="search the data"
+    [(ngModel)]="query"
+    (keyup.enter)="search()"
+    type="search"
+    class="w-4/6 bg-white rounded-full px-3 h-12"
+  />
+  <!-- <mat-autocomplete #folderAuto="matAutocomplete" (optionSelected)="onFolderSelected($event)">
+      <ng-container *ngIf="!isLoading;">
+        <ng-container *ngIf="websites.length > 0;">
+          <mat-option *ngFor="let website of websites" [value]="website.symbol">
+            {{website.description}} {{website.symbol}}
+          </mat-option>
+        </ng-container>
+      </ng-container>
+    </mat-autocomplete> -->
+
+  <div
+    *ngIf="searchResults.length"
+    class="absolute bg-white border rounded-lg mt-2 w-full p-2 shadow-lg"
+  >
+    <div
+      *ngFor="let result of searchResults"
+      class="p-2 hover:bg-gray-100 cursor-pointer"
+    >
+      {{ result }}
+    </div>
+  </div>
+  <!-- <div class="flex space-x-2">
+    <button mat-raised-button *ngFor="let tab of tabs" [routerLink]="'/tab/' + tab.id" [ngClass]="{'bgChange': tab.active}" >
+      Tab {{ tab.id }} <span (click)="removeTab(tab.id)" class="ml-2 cursor-pointer">✖</span>
+    </button>
+    <button mat-icon-button (click)="addTab()" class="px-4 py-2 bg-gray-700 text-white rounded-lg">+</button>
+  </div> -->
+
+  <button
+    mat-icon-button
+    [matMenuTriggerFor]="menu"
+    aria-label="Example icon-button with a menu"
+  >
+    <mat-icon>more_vert</mat-icon>
+  </button>
+  <mat-menu #menu="matMenu">
+    <button mat-menu-item>
+      <mat-icon>tab_unselected</mat-icon>
+      <span>new Tab</span>
+    </button>
+    <button mat-menu-item disabled>
+      <mat-icon>tab</mat-icon>
+      <span>New Icongito tab</span>
+    </button>
+    <button mat-menu-item>
+      <mat-icon>laptop_windows</mat-icon>
+      <span>New Window</span>
+    </button>
+  </mat-menu>
+</header>
+<router-outlet></router-outlet>
