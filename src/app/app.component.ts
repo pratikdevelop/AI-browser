@@ -5,9 +5,11 @@ import {
   RouterModule,
   RouterOutlet,
 } from '@angular/router';
+import * as tf from '@tensorflow/tfjs';
+
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { CommonModule } from '@angular/common';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatCardModule } from '@angular/material/card';
 import { MatNativeDateModule, MatRippleModule } from '@angular/material/core';
@@ -34,6 +36,7 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
 
 import { MatTableModule } from '@angular/material/table';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { Observable, startWith, map } from 'rxjs';
 @Component({
   selector: 'app-root',
   standalone: true,
@@ -100,6 +103,32 @@ export class AppComponent {
     } else {
       this.tabs = [{ id: 1, name: 'Tab 1', active: true }];
     }
+  }
+
+  searchControl = new FormControl();
+  options: string[] = ['Option 1', 'Option 2', 'Option 3'];
+  filteredOptions!: Observable<string[]>;
+
+  ngOnInit() {
+    this.filteredOptions = this.searchControl.valueChanges.pipe(
+      startWith(''),
+      map((value) => this._filter(value))
+    );
+
+    // Load your TensorFlow.js model here
+    this.loadModel();
+  }
+
+  private _filter(value: string): string[] {
+    const filterValue = value.toLowerCase();
+    return this.options.filter((option) =>
+      option.toLowerCase().includes(filterValue)
+    );
+  }
+
+  async loadModel() {
+    const model = await tf.loadLayersModel('path/to/your/model.json');
+    // Use the model for predictions
   }
 
   addTab() {
